@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="loader loader--hidden">
+        <p>loading</p>
+    </div>
+    <div class="intro">
+        <h1>Weather app</h1>
+        <form class="intro__form">
+            <input class="search-input" type="text" placeholder="City">
+            <input type="submit" class="btn btn__search"></input>
+            <button class="btn btn__geo">geo</button>
+        </form>
+    </div>
+    <section class="main main--hidden">
+        <header class="main__header">
+            <h2 class="city-name"></h2>
+            <p class="date"></p>
+        </header>
+        <div class="today">
+            <div class="today__overall">
+                <h2 class="today-temp"></h2>
+                <p class="today-cond"></p>
+                <p class="today-icon"></p>
+            </div>
+            <div class="today__details">
+                <p class="today-humidity">Humidity: <span id="humidity"></span></p>
+                <p class="today-pressure">Pressure: <span id="pressure"></span></p>
+                <p class="today-rain">Rain: <span id="rain"></span></p>
+                <p class="today-snow">Snow: <span id="snow"></span></p>
+                <p class="today-sunrise">Sunrise: <span id="sunrise"></span></p>
+                <p class="today-sunset">Sunset: <span id="sunset"></span></p>
+            </div>
+        </div>
+    </section>
+    
+<script type="text/javascript" src="bundle.js"></script></body>
+</html>
