@@ -1,4 +1,117 @@
-
-.intro--hidden, .main--hidden, .loader--hidden {
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box
+}
+:root {
+    --background-color: #709EA8;
+    --main-color-dark: #3C3C3B;
+    --main-color-light: #FFF;
+}
+html {
+    font-family: Montserrat, sans-serif;
+}
+body {
+    background-color: var(--background-color);
+}
+/* Loader anumation */
+.loader {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-color);
+    align-content: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+.loader img {
+    animation: spin 3s linear infinite;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.loader--hidden {
     display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.intro img {
+    padding-bottom: 40px;
+    width: 135px;
+}
+.intro__form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    height: 30px;
+    padding: 5px;
+    border-bottom: 2px solid var(--main-color-light);
+    
+}
+.search-input {
+    background-color: transparent;
+    height: 25px;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 1.8em;
+    color: var(--main-color-light);
+}
+.search-input::placeholder {
+    color: var(--main-color-dark);
+    font-weight: 300;
+}
+.search-input:focus {
+    outline: none;
+}
+.btn {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1.2em;
+}
+.btn:hover {
+
+}
+.intro .error {
+    width: 280px;
+    color: red;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 0.8em;
+}
+
+
+.intro--hidden,
+.main--hidden {
+    display: none;
+}
+
+.today__sun-path {
+    margin: 0;
+    width: 100%;
 }

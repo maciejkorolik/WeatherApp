@@ -1,5 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -22,11 +23,20 @@ module.exports = {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
         },
+        {
+            test: /\.(png|svg|jpg|gif)$/,
+            use: [
+                    'file-loader?name=[name].[ext]&outputPath=img/' 
+                ] 
+        },
     ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'
+        }),
+        new MomentLocalesPlugin({
+            localesToKeep: ['pl']
         })
     ]
 };
