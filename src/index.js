@@ -1,4 +1,5 @@
 import './css/style.css';
+import './css/zwicon.css';
 var moment = require('moment');
 
 // navigator.geolocation.getCurrentPosition(function (position) {
@@ -8,52 +9,80 @@ var moment = require('moment');
 let appId = '4028c59f77317ad8b5a44c41e53ca804';
 let units = 'metric';
 
-
-// function getWeatherByGeo() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(pos => {
-//             document.querySelector('.intro').classList.add("intro--hidden");
-//             toggleLoader();
-//             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=${appId}&units=${units}`)
-//                 .then(result => {
-//                     if(result.ok) {
-//                         return result.json()
-//                     } else {
-//                         return Promise.reject(result)
-//                     }
-//                 })
-//                 .then(result => showTodayWeather(result))
-//                 .catch(error => console.log(error));
-//         });
-//     } else {
-//         console.log('geolocation not supported');
-//     }
-// };
-
 function getWeatherByCity(searchInput) {
     document.querySelector('.intro').classList.add("intro--hidden");
     toggleLoader();
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&appid=${appId}&units=${units}`)
-        .then(result => {
+        .then(resultToday => {
             deleteError();
-            if(result.ok) {
-                return result.json()
+            if(resultToday.ok) {
+                return resultToday.json()
             } else {
-                return Promise.reject(result)
+                return Promise.reject(resultToday)
             }
             
         })
-        .then(result => showTodayWeather(result))
+        .then(resultToday => showTodayWeather(resultToday))
         .catch(error => {
             console.log(error);
-            showError();
+            toggleLoader();
+            showError(`I can't find this city. Try again or use your location!`);
         });
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInput}&appid=${appId}&units=${units}`)
+        .then(resultFiveDays => {
+            if (resultFiveDays.ok) {
+                return resultFiveDays.json()
+            } else {
+                return Promise.reject(resultFiveDays)
+            }
+
+        })
+        .then(resultFiveDays => showFiveDays(resultFiveDays))
+        .catch(error => {
+            console.log(error);
+        });
+    
+};
+
+function getWeatherByGeo(lat, lon) {
+    document.querySelector('.intro').classList.add("intro--hidden");
+    toggleLoader();
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${appId}&units=${units}`)
+        .then(resultToday => {
+            deleteError();
+            if (resultToday.ok) {
+                return resultToday.json()
+            } else {
+                return Promise.reject(resultToday)
+            }
+        })
+        .then(resultToday => showTodayWeather(resultToday))
+        .catch(error => {
+            console.log(error);
+            toggleLoader();
+            showError(`I can't find your location. Try normal search.`);
+        });
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${appId}&units=${units}`)
+        .then(resultFiveDays => {
+            if (resultFiveDays.ok) {
+                return resultFiveDays.json()
+            } else {
+                return Promise.reject(resultFiveDays)
+            }
+
+        })
+        .then(resultFiveDays => showFiveDays(resultFiveDays))
+        .catch(error => {
+            console.log(error);
+        });
+
 };
 
 function showTodayWeather(result) {
-    console.log(result);
+    // console.log(result);
     toggleLoader();
     document.querySelector('.main').classList.remove("main--hidden");
+    document.querySelector('.details').classList.remove("details--hidden");
     //    Calculate sunset, sunrise and percent of day
     let currentTimeUnix = moment().unix()
     let percentOfDay = ((currentTimeUnix - result.sys.sunrise)/(result.sys.sunset-result.sys.sunrise));
@@ -65,32 +94,68 @@ function showTodayWeather(result) {
     }
     let sunriseTime = moment(new Date(result.sys.sunrise *1000)).format("H:mm");
     let sunsetTime = moment(new Date(result.sys.sunset * 1000)).format("H:mm");
-    console.log(percentOfDay, percentOfNight, sunsetTime, sunriseTime);
 
     document.querySelector('.date').innerHTML = moment().format("dddd, D MMMM YYYY");
-    document.querySelector('.city-name').innerHTML = result.name;
-    document.querySelector('.today-temp').innerHTML = result.main.temp.toFixed();
-    document.querySelector('.today-cond').innerHTML = result.weather[0].main;
-    document.querySelector('#humidity').innerHTML = result.main.humidity;
-    document.querySelector('#pressure').innerHTML = result.main.pressure;
-    // document.querySelector('#sunrise').innerText = 
-    // document.querySelector('#sunset').innerText = 
+    document.querySelectorAll('.city-name').forEach(el => el.innerHTML = result.name);
+    document.querySelector('.current-temp').innerHTML = result.main.temp.toFixed() + '&deg';
+    document.querySelector('.max-temp').innerHTML = result.main.temp_max.toFixed() + '&deg';
+    document.querySelector('.min-temp').innerHTML = result.main.temp_min.toFixed() + '&deg';
+    document.querySelector('.today-cond').innerHTML = result.weather[0].main.toLowerCase();
+    document.querySelector('.sunrise-value').innerHTML = sunriseTime;
+    document.querySelector('.sunset-value').innerHTML = sunsetTime;
+    document.querySelector('.today-clouds').innerHTML = result.clouds.all;
+    document.querySelector('.today-humidity').innerHTML = result.main.humidity;
+    document.querySelector('.today-pressure').innerHTML = result.main.pressure;
+    if (result.wind) {
+        document.querySelector('.today-wind').innerHTML = result.wind.speed;
+     };
+
     if (currentTimeUnix >= result.sys.sunrise && currentTimeUnix < result.sys.sunset){
         displaySunPath(percentOfDay, 'day');
+        document.querySelector('.today-icon').innerHTML = `<i class="${setIcon(result.weather[0].id)}"></i>`;
+        document.documentElement.style.setProperty('--background-main', `${setBackground(result.weather[0].id)}`);
     } else {
         displaySunPath(percentOfNight, 'night');
+        document.querySelector('.today-icon').innerHTML = `<i class="zwicon-moon"></i>`;
+        document.documentElement.style.setProperty(`--background-main`, '#3C3C3B');
+        document.documentElement.style.setProperty(`--text-color`, '#FFF');
     }
     
 };
+
+function showFiveDays(result) {
+    let noonData = [];
+    result.list.map(el => {
+        if (el.dt_txt.includes("12:00")) {
+            noonData.push(el);
+        }
+    });
+    console.log(noonData);
+    let nextDays = document.querySelector('.details__next-days');
+    nextDays.innerHTML = '';
+    noonData.forEach(
+        day => {
+            let dayName = moment(day.dt_txt).format("dddd");
+            let dayTemp = day.main.temp.toFixed();
+            let dayIcon = day.weather[0].id;
+            let dayDisplay = document.createElement('div');
+            dayDisplay.classList.add('next-day');
+            dayDisplay.innerHTML = 
+            `<p class="next-day__date">${dayName}</p>
+            <p class="next-day__icon"><i class="${setIcon(dayIcon)}"></i></p>
+            <p class="next-day__temp">${dayTemp} &deg</p>`
+            nextDays.appendChild(dayDisplay);
+        }
+    )
+}
 
 function toggleLoader() {
     document.querySelector('.loader').classList.toggle("loader--hidden");
 };
 
-function showError() {
-    toggleLoader();
+function showError(text) {
     document.querySelector('.intro').classList.toggle("intro--hidden");
-    document.querySelector('p.error').innerText = 'I cant find this city. Try another one or use your location';
+    document.querySelector('p.error').innerText = text;
 };
 
 function deleteError() {
@@ -104,12 +169,10 @@ function displaySunPath(percent, time) {
     let sunPath = document.getElementById('sun-path');
     let sunPathTotal = sunPath.getTotalLength();
     let sunPathCurrent = sunPathTotal * (1-percent);
-    console.log(sunPathTotal);
     sunPath.style.strokeDasharray = sunPathTotal;
     sunPath.style.strokeDashoffset = sunPathCurrent;
     // get position of length
     let sunPosition = sunPath.getPointAtLength(sunPathTotal - sunPathCurrent);
-    console.log(sunPosition);
     let sun = document.getElementById('sun');
     sun.setAttribute("cx", sunPosition.x);
     sun.setAttribute("cy", sunPosition.y);
@@ -119,6 +182,41 @@ function displaySunPath(percent, time) {
     }
 }
 
+function setBackground(id) {
+    if (id < 300) {
+        return '#C5C3C6';
+    } else if (id < 500) {
+        return '#C5C3C6';
+    } else if (id < 600) {
+        return '#C5C3C6';
+    } else if (id < 700) {
+        return '#C5C3C6';
+    } else if (id < 800) {
+        return '#C5C3C6';
+    } else if (id == 800) {
+        return '#FBC244';
+    } else {
+        return '#C5C3C6';
+    };
+};
+function setIcon(id) {
+    if (id < 300) {
+        return 'zwicon-storm';
+    } else if (id < 500) {
+        return 'zwicon-mild-rain';
+    } else if (id < 600) {
+        return 'zwicon-heavy-rain';
+    } else if (id < 700) {
+        return 'zwicon-snow';
+    } else if (id < 800) {
+        return 'zwicon-cloud';
+    } else if (id == 800) {
+        return 'zwicon-sun';
+    } else {
+        return 'zwicon-cloud';
+    };
+}
+
 document.querySelector('.intro__form').addEventListener('submit', (e) => {
     e.preventDefault();
     let searchInput = document.querySelector('.search-input').value;
@@ -126,5 +224,41 @@ document.querySelector('.intro__form').addEventListener('submit', (e) => {
     // Clear input value
     document.querySelector('.search-input').value = "";
 });
-// document.querySelector('.btn__geo').addEventListener('click', getWeatherByGeo());
-window.addEventListener('load', toggleLoader());
+
+document.querySelector('.btn.btn__geo').addEventListener('click', () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            getWeatherByGeo(pos.coords.latitude, pos.coords.longitude);
+        },
+        error => {
+            if (error.code == error.PERMISSION_DENIED) {
+                document.querySelector('.intro').classList.toggle("intro--hidden");
+                showError(`Geolocation not supported`);
+            }
+                });
+    } else {
+        console.log('geolocation not supported');
+        showError(`Geolocation not supported`);
+    }});
+
+document.querySelector('.btn.btn__arrow-down').addEventListener('click', () => {
+    document.querySelector('.main').classList.toggle('main--up');
+    document.querySelector('.details').classList.toggle('details--down');
+});
+
+document.querySelector('.btn.btn__arrow-up').addEventListener('click', () => {
+    document.querySelector('.main').classList.toggle('main--up');
+    document.querySelector('.details').classList.toggle('details--down');
+});
+
+document.querySelector('.btn__return').addEventListener('click', () => {
+    document.querySelector('.intro').classList.toggle("intro--hidden");
+    if (document.querySelector('.main').classList.contains('main--up')) {
+        document.querySelector('.main').classList.toggle('main--up');
+        document.querySelector('.details').classList.toggle('details--down');
+    }
+});
+
+// window.addEventListener('load', toggleLoader());
+   
+       

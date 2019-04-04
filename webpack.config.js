@@ -29,6 +29,12 @@ module.exports = {
                     'file-loader?name=[name].[ext]&outputPath=img/' 
                 ] 
         },
+        {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            use: [
+                'file-loader?name=[name].[ext]&outputPath=fonts/'
+            ]
+        },
     ]
     },
     plugins: [

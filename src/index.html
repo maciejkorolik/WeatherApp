@@ -1,54 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Weather App</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
+
 <body>
-    <div class="loader">
-       <img src=<%= require ("./img/sun_loading.svg") %> alt="loading">
+    <div class="loader loader--hidden">
+        <img src=<%= require ("./img/sun_loading.svg") %> alt="loading">
     </div>
+    <div class="search-icon"><button class="btn btn__return"><i class="zwicon-search"></i></button></div>
     <div class="intro">
         <img src=<%= require ("./img/weather/cloud.svg") %> alt="cloud-logo">
         <form class="intro__form">
             <input class="search-input" type="text" placeholder="Search for a city" required>
-            <button type="submit" class="btn btn__search"><i class="fas fa-search"></i></button>
-            <button class="btn btn__geo"><i class="fas fa-map-marker-alt"></i></button>
+            <button type="submit" class="btn btn__search"><i class="zwicon-search"></i></button>
         </form>
+        <br>
+        <p>or</p>
+        <br>
+        <button class="btn btn__geo">Use your location <i class="zwicon-map-marker"></i></button>
         <p class="error"></p>
     </div>
     <section class="main main--hidden">
         <header class="main__header">
             <p class="date"></p>
-            <h2 class="city-name"></h2>
+            <h2 class="city-name city-name--main"></h2>
         </header>
         <div class="today">
             <div class="today__overall">
-                <h2 class="today-temp"></h2>
+                <div class="today-icon"><i class="zwicon-sun"></i></div>
+                <div class="today-temp">
+                    <p><i class="zwicon-arrow-up"></i><span class="max-temp"></span></p>
+                    <h2 class="current-temp"></h2>
+                    <p><i class="zwicon-arrow-down"></i><span class="min-temp"></span></p>
+                </div>
                 <p class="today-cond"></p>
-                <p class="today-icon"></p>
             </div>
-            <div class="today__details">
-                <p class="today-humidity">Humidity: <span id="humidity"></span></p>
-                <p class="today-pressure">Pressure: <span id="pressure"></span></p>
-                <p class="today-sunrise">Sunrise: <span id="sunrise"></span></p>
-                <p class="today-sunset">Sunset: <span id="sunset"></span></p>
+        </div>
+        <div class="today__sun-path">
+            <svg viewBox="0 0 300 90">
+                <path fill-opacity="0" stroke-width="1" stroke="#555"
+                    d="M-1.5,90.5c31.28-54.36,88-85,152-85c96.65,0,149.78,81.13,152,85" />
+                <path id="sun-path" fill-opacity="0" stroke-width="2" stroke="#3c3c3b" d="M-1.5,90.5c31.28-54.36,88-85,152-85c96.65,0,149.78,81.13,152,85" />
+                <circle id='sun' r="7" fill="#3c3c3b" />
+            </svg>
+            <div class="sun-values">
+                <p class="today-sunrise">sunrise:<br><span class="sunrise-value"></span></p>
+                <p class="today-sunset">sunset:<br><span class="sunset-value"></span></p>
             </div>
-            <div class="today__sun-path">
-                <svg viewBox="0 0 300 150">
-                    <path fill-opacity="0" stroke-width="1" stroke="#ddd" d="M 0 150 Q 150 1 300 150" />
-                    <path id="sun-path" fill-opacity="0" stroke-width="2" stroke="#FFCE60"
-                        d="M 0 150 Q 150 1 300 150 " />
-                    <circle id='sun' r="5" fill="#FFCE60" />
-                </svg>
+            <button class="btn btn__arrow-down"><i class="zwicon-chevron-double-down"></i></button>
+        </div>
+
+    </section>
+    <section class="details details--down details--hidden">
+        <div class="details__top">
+            <button class="btn btn__arrow-up"><i class="zwicon-chevron-double-up"></i></button>
+            <h3 class="city-name city-name--details"></h3>
+        </div>
+        <div class="details__center">
+            <p class="details__description">Details:</p>
+            <div class="details__today-info">
+                <div class="today-item">
+                    <p>Clouds: <br> <span class="today-clouds">0</span> %</p>
+                </div>
+                <div class="today-item">
+                    <p>Humidity: <br> <span class="today-humidity">0</span> %</p>
+                </div>
+                <div class="today-item">
+                    <p>Pressure: <br> <span class="today-pressure">0</span> hPa</p>
+                </div>
+                <div class="today-item">
+                    <p>Wind: <br> <span class="today-wind">0</span> m/s</p>
+                </div>
+            </div>
+        </div>
+        <div class="details__bottom">
+            <p class="details__description">Next days:</p>
+            <div class="details__next-days">
             </div>
         </div>
     </section>
-    
 </body>
+
 </html>

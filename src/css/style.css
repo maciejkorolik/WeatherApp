@@ -4,7 +4,9 @@
     box-sizing: border-box
 }
 :root {
-    --background-color: #709EA8;
+    --background-intro: #709EA8;
+    --background-main: #FBC244;
+    --text-color: #3C3C3B;
     --main-color-dark: #3C3C3B;
     --main-color-light: #FFF;
 }
@@ -12,7 +14,13 @@ html {
     font-family: Montserrat, sans-serif;
 }
 body {
-    background-color: var(--background-color);
+    background-color: var(--background-main);
+}
+button {
+    cursor: pointer;
+}
+button:focus {
+    outline: 0;
 }
 /* Loader anumation */
 .loader {
@@ -21,11 +29,11 @@ body {
     opacity: 1;
     width: 100%;
     height: 100vh;
-    background-color: var(--background-color);
+    background-color: var(--background-intro);
     align-content: center;
     justify-content: center;
-    z-index: 1000;
-    transition: visibility 0s, opacity 0.5s linear;
+    z-index: 100;
+    /* transition: visibility 0s, opacity 0.3s; */
 }
 .loader img {
     animation: spin 3s linear infinite;
@@ -37,14 +45,28 @@ body {
 }
 .loader--hidden {
     display: none;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
+    /* visibility: hidden;
+    opacity: 0; */
 }
-
+.search-icon {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 10;
+    padding: 2px;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+}
+.btn__return i {
+    font-size: 2em;
+    color: var(--text-color);
+}
 .intro {
     display: flex;
+    position: fixed;
     flex-direction: column;
+    visibility: visible;
+    opacity: 1;
     height: 100vh;
     width: 100%;
     padding: 20px;
@@ -52,11 +74,26 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 10px;
+    background-color: var(--background-intro);
+    color: var(--main-color-light);
+    z-index: 100;
+    transition: visibility 0s, opacity 0.3s;
+    
+}
+.intro--hidden {
+    visibility: hidden;
+    opacity: 0;
+
 }
 
 .intro img {
     padding-bottom: 40px;
     width: 135px;
+}
+.intro p {
+    font-size: 1.3em;
+    font-weight: 200;
+    margin: 10px;
 }
 .intro__form {
     display: flex;
@@ -82,7 +119,7 @@ body {
     color: var(--main-color-light);
 }
 .search-input::placeholder {
-    color: var(--main-color-dark);
+    color: #ccc;
     font-weight: 300;
 }
 .search-input:focus {
@@ -92,26 +129,220 @@ body {
     border: none;
     background-color: transparent;
     color: white;
+    font-size: 1.5em;
+}
+.btn i {
     font-size: 1.2em;
+}
+.btn__geo {
+    font-family: Montserrat, sans-serif;
+    font-weight: 300;
+    padding: 7px;
+    border-radius: 6px;
+    border: 1px solid var(--main-color-light);
 }
 .btn:hover {
 
 }
 .intro .error {
-    width: 280px;
-    color: red;
+    width: 300px;
+    color: rgb(255, 166, 166);
     padding: 10px;
+    font-weight: 400;
     margin-top: 10px;
-    font-size: 0.8em;
+    font-size: 1.5em;
+    text-align: center;
 }
+/* Main section */
 
-
-.intro--hidden,
-.main--hidden {
-    display: none;
+.main {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background-main);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: space-between;
+    font-size: 10px;
+    transition: transform 0.5s ease;
 }
+.main--up {
+    transform: translateY(-100%);
+    
+}
+.main__header {
+    align-self: center;
+    text-align: center;
+    margin-top: 20px;
+}
+.date {
+    font-size: 1.2em;
+    font-weight: 400;
+}
+.city-name--main {
+     font-size: 3.8em;
+     font-weight: 300;
+     line-height: 2;
+}
+.today__overall {
+    align-self: center;
+    text-align: center;
+}
+.today-icon i {
+    font-size: 9em;
+}
+.today-temp {
+    display:flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 20px 30px;
+}
+.current-temp {
+    font-size: 6.4em;
+    font-weight: 200;
+}
+.max-temp, .min-temp {
+    font-size: 1.4em;
+    font-weight: 400;
+}
+.today-temp i {
+    font-size: 1.8em;
+}
+.today-cond {
+    font-size: 1.7em;
 
+}
 .today__sun-path {
     margin: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 }
+.sun-values {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 1.3em;
+    text-align: center;
+}
+.btn__arrow-down {
+    margin: 0 auto;
+    color: var(--text-color);
+    font-size: 5em;
+    padding-bottom: 10px;
+}
+.details {
+    position: fixed;
+    top:0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    background-color: var(--background-main);
+    color: var(--text-color);
+    transition: transform 0.3s ease;
+}
+.details--down {
+    transform: translateY(100%);
+}
+.details__top {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+.btn__arrow-up {
+    margin: 0 auto;
+    color: var(--text-color);
+    font-size: 5em;
+}
+.city-name--details {
+    font-size: 3em;
+    font-weight: 300;
+    line-height: 2;
+    width: 200px;
+    text-align: center;
+    /* border-bottom: 1px solid var(--text-color); */
+}
+.details__center {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    max-width: 300px;
+    padding: 10px;
+}
+.details__description {
+    font-size: 1.6em;
+    line-height: 2;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: 1px solid var(--text-color);
+}
+.details__today-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    font-size: 1.6em;
+    font-weight: 300;
+    margin-top: 10px;
+}
+.today-item {
+    width: 110px;
+    justify-self: center;
+    /* padding: 15px 20px; */
+    /* border-bottom: 1px solid var(--text-color); */
+}
+.today-item span {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+.details__bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    align-content: center;
+    margin-bottom: 20px;
+}
+.next-day {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid var(--text-color);
+}
+.next-day:last-child {
+    border: none;
+}
+.next-day__date {
+    font-size: 1.5em;
+    flex-grow: 1;
+    font-weight: 300;
+}
+.next-day__icon {
+    font-size: 3em;
+    margin: 0 30px;
+}
+.next-day__temp {
+    font-size: 2.5em;
+    font-weight: 400;
+    width: 60px;
+}
+
+
+.main--hidden, 
+.details--hidden {
+    display: none;
+}
+
+
