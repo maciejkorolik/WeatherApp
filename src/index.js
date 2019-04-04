@@ -6,6 +6,9 @@ var moment = require('moment');
 //     console.log(position.coords.latitude, position.coords.longitude);
 // });
 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 let appId = '4028c59f77317ad8b5a44c41e53ca804';
 let units = 'metric';
 
@@ -20,7 +23,6 @@ function getWeatherByCity(searchInput) {
             } else {
                 return Promise.reject(resultToday)
             }
-            
         })
         .then(resultToday => showTodayWeather(resultToday))
         .catch(error => {
@@ -97,6 +99,9 @@ function showTodayWeather(result) {
 
     document.querySelector('.date').innerHTML = moment().format("dddd, D MMMM YYYY");
     document.querySelectorAll('.city-name').forEach(el => el.innerHTML = result.name);
+    if (result.name.length > 10) {
+        document.documentElement.style.setProperty('--city-name-size', '2.5em');
+    }
     document.querySelector('.current-temp').innerHTML = result.main.temp.toFixed() + '&deg';
     document.querySelector('.max-temp').innerHTML = result.main.temp_max.toFixed() + '&deg';
     document.querySelector('.min-temp').innerHTML = result.main.temp_min.toFixed() + '&deg';
@@ -177,8 +182,8 @@ function displaySunPath(percent, time) {
     sun.setAttribute("cx", sunPosition.x);
     sun.setAttribute("cy", sunPosition.y);
     if (time == 'night') {
-        sunPath.setAttribute('stroke', '#000');
-        sun.setAttribute('fill', '#000');
+        sunPath.setAttribute('stroke', '#C5C3C6');
+        sun.setAttribute('fill', '#C5C3C6');
     }
 }
 

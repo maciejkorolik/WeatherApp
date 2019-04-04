@@ -9,6 +9,7 @@
     --text-color: #3C3C3B;
     --main-color-dark: #3C3C3B;
     --main-color-light: #FFF;
+    --city-name-size: 3.8em;
 }
 html {
     font-family: Montserrat, sans-serif;
@@ -29,6 +30,7 @@ button:focus {
     opacity: 1;
     width: 100%;
     height: 100vh;
+    /* height: calc(var(--vh, 1vh) * 100); */
     background-color: var(--background-intro);
     align-content: center;
     justify-content: center;
@@ -48,17 +50,17 @@ button:focus {
     /* visibility: hidden;
     opacity: 0; */
 }
-.search-icon {
+.search-btn {
     position: fixed;
-    right: 20px;
-    top: 20px;
+    right: 15px;
+    top: 15px;
     z-index: 10;
-    padding: 2px;
+    padding: 1px;
     border: 1px solid var(--text-color);
-    border-radius: 5px;
+    border-radius: 3px;
 }
 .btn__return i {
-    font-size: 2em;
+    font-size: 1.8em;
     color: var(--text-color);
 }
 .intro {
@@ -68,6 +70,7 @@ button:focus {
     visibility: visible;
     opacity: 1;
     height: 100vh;
+    /* height: calc(var(--vh, 1vh) * 100); */
     width: 100%;
     padding: 20px;
     margin: 0 auto;
@@ -146,7 +149,7 @@ button:focus {
 }
 .intro .error {
     width: 300px;
-    color: rgb(255, 166, 166);
+    color: rgb(255, 218, 218);
     padding: 10px;
     font-weight: 400;
     margin-top: 10px;
@@ -158,6 +161,7 @@ button:focus {
 .main {
     width: 100%;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     background-color: var(--background-main);
     color: var(--text-color);
     display: flex;
@@ -168,7 +172,7 @@ button:focus {
     transition: transform 0.5s ease;
 }
 .main--up {
-    transform: translateY(-100%);
+    transform: translateY(-120%);
     
 }
 .main__header {
@@ -181,9 +185,9 @@ button:focus {
     font-weight: 400;
 }
 .city-name--main {
-     font-size: 3.8em;
+     font-size: var(--city-name-size);
      font-weight: 300;
-     line-height: 2;
+     margin-top: 20px;
 }
 .today__overall {
     align-self: center;
@@ -242,6 +246,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100%;
     margin: 0 auto;
     align-items: center;
@@ -252,7 +257,7 @@ button:focus {
     transition: transform 0.3s ease;
 }
 .details--down {
-    transform: translateY(100%);
+    transform: translateY(120%);
 }
 .details__top {
     display: flex;
@@ -265,8 +270,8 @@ button:focus {
     font-size: 5em;
 }
 .city-name--details {
-    font-size: 3em;
-    font-weight: 300;
+    font-size: calc(var(--city-name-size)*0.8);
+    font-weight: 400;
     line-height: 2;
     width: 200px;
     text-align: center;
@@ -317,7 +322,7 @@ button:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 50px;
+    height: 40px;
     align-items: center;
     border-bottom: 1px solid var(--text-color);
 }
@@ -325,24 +330,154 @@ button:focus {
     border: none;
 }
 .next-day__date {
-    font-size: 1.5em;
+    font-size: 1.3em;
     flex-grow: 1;
     font-weight: 300;
 }
 .next-day__icon {
-    font-size: 3em;
-    margin: 0 30px;
+    font-size: 2.5em;
+    margin: 0 20px;
 }
 .next-day__temp {
-    font-size: 2.5em;
+    font-size: 2.1em;
     font-weight: 400;
-    width: 60px;
+    width: 45px;
 }
 
 
 .main--hidden, 
 .details--hidden {
     display: none;
+}
+
+/* Start of media queries */
+@media only screen and (min-width: 760px) and  (orientation: portrait) {
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+    }
+    .main, .main--up {
+        position: static;
+        transform: none;
+        height: 70vh;
+        height: calc(var(--vh, 1vh) * 70);
+        padding-bottom: 30px;
+    }
+    .today {
+        width: 50%;
+        margin: 0 auto;
+
+    }
+    .sun-values {
+        width: 80%;
+        margin: 0 auto;
+        font-size: 1.6em;
+    }
+    .details, .details--down {
+        position: static;
+        transform: none;
+        height: 30vh;
+        height: calc(var(--vh, 1vh) * 30);
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        padding-top: 20px;
+    }
+    .details__bottom {
+        width: 255px;
+    }
+    .btn__arrow-up, .btn__arrow-down {
+        display: none;
+    }
+    .details__top {
+        display: none;
+    }
+    
+}
+@media only screen and (min-width: 760px) and (orientation: landscape) {
+    .main-container {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+        justify-content: center;
+        align-items: center;
+    }
+     .wrapper {
+         display: flex;
+         flex-direction: row;
+         position: relative;
+         justify-content: space-evenly;
+         align-items: center;
+         width: 80%;
+         height: 80vh;
+         height: calc(var(--vh, 1vh) * 80);
+         min-height: 600px;
+         max-height: 800px;
+         max-width: 950px;
+         /* border: 1px solid var(--text-color);
+         border-radius: 10px; */
+     }
+     .search-btn {
+         position: absolute;
+         top: 50px;
+         right: 20px;
+     }
+      .main, .main--up {
+          /* position: static; */
+          transform: none;
+          width: 50%;
+          height: 90%;
+          /* border-right: 1px solid var(--text-color); */
+          border: 1px solid var(--text-color);
+          border-radius: 10px;
+          margin:7px;
+      }
+
+      .today {
+          width: 80%;
+          margin: 0 auto;
+
+      }
+
+      .sun-values {
+          width: 90%;
+          margin: 0 auto;
+          font-size: 1.4em;
+      }
+
+      .details,
+      .details--down {
+          position: static;
+          transform: none;
+          height: 90%;
+          width: 50%;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-evenly;
+          padding-top: 20px;
+          border: 1px solid var(--text-color);
+          border-radius: 10px;
+          margin:7px;
+      }
+
+      .details__bottom {
+          width: 255px;
+      }
+
+      .btn__arrow-up,
+      .btn__arrow-down {
+          display: none;
+      }
+
+      .details__top {
+          display: none;
+      }
 }
 
 
