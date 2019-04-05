@@ -2,15 +2,16 @@ import './css/style.css';
 import './css/zwicon.css';
 var moment = require('moment');
 
-// navigator.geolocation.getCurrentPosition(function (position) {
-//     console.log(position.coords.latitude, position.coords.longitude);
-// });
+// let vh = window.innerHeight * 0.01;
+// document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-let vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty('--vh', `${vh}px`);
-
+window.addEventListener('resize', () => {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+});
 let appId = '4028c59f77317ad8b5a44c41e53ca804';
 let units = 'metric';
+
 
 function getWeatherByCity(searchInput) {
     document.querySelector('.intro').classList.add("intro--hidden");
@@ -265,5 +266,4 @@ document.querySelector('.btn__return').addEventListener('click', () => {
 });
 
 // window.addEventListener('load', toggleLoader());
-   
-       
+//

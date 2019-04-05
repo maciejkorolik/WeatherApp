@@ -108,7 +108,6 @@ button:focus {
     height: 30px;
     padding: 5px;
     border-bottom: 2px solid var(--main-color-light);
-    
 }
 .search-input {
     background-color: transparent;
@@ -144,9 +143,6 @@ button:focus {
     border-radius: 6px;
     border: 1px solid var(--main-color-light);
 }
-.btn:hover {
-
-}
 .intro .error {
     width: 300px;
     color: rgb(255, 218, 218);
@@ -162,6 +158,7 @@ button:focus {
     width: 100%;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
+    min-height: 550px;
     background-color: var(--background-main);
     color: var(--text-color);
     display: flex;
@@ -247,6 +244,7 @@ button:focus {
     flex-direction: column;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
+    min-height: 550px;
     width: 100%;
     margin: 0 auto;
     align-items: center;
@@ -302,8 +300,6 @@ button:focus {
 .today-item {
     width: 110px;
     justify-self: center;
-    /* padding: 15px 20px; */
-    /* border-bottom: 1px solid var(--text-color); */
 }
 .today-item span {
     font-size: 1.1em;
@@ -355,22 +351,24 @@ button:focus {
     .wrapper {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: stretch;
         width: 100%;
         height: 100vh;
         height: calc(var(--vh, 1vh) * 100);
+        min-height: 940px;
     }
     .main, .main--up {
         position: static;
         transform: none;
-        height: 70vh;
-        height: calc(var(--vh, 1vh) * 70);
+        /* height: 70vh;
+        height: calc(var(--vh, 1vh) * 70); */
+        height: auto;
+        max-height: none;
         padding-bottom: 30px;
     }
     .today {
         width: 50%;
         margin: 0 auto;
-
     }
     .sun-values {
         width: 80%;
@@ -380,10 +378,10 @@ button:focus {
     .details, .details--down {
         position: static;
         transform: none;
-        height: 30vh;
-        height: calc(var(--vh, 1vh) * 30);
+        height: auto;
+        min-height: 300px;
         flex-direction: row;
-        align-items: flex-start;
+        /* align-items: flex-start; */
         justify-content: space-evenly;
         padding-top: 20px;
     }
@@ -398,6 +396,46 @@ button:focus {
     }
     
 }
+@media only screen and (min-width: 850px) and (orientation: portrait) {
+    .intro, .main, .main--up, .details, .details--down {
+        font-size:12px;
+    }
+    .wrapper {
+        min-height: 1020px;
+    }
+    .next-day__temp {
+        font-size: 2em;
+        width: 60px;
+    }
+    .details__center, .details__bottom {
+        max-width: none;
+        width: 360px;
+    }
+    .today-item {
+        width: 150px;
+    }
+}
+@media only screen and (min-width: 960px) and (orientation: portrait) {
+
+    .intro, .main, .main--up, .details, .details--down {
+        font-size: 14px;
+    }
+    .wrapper {
+        min-height: 1100px;
+    }
+    .next-day__temp {
+        font-size: 1.9em;
+        width: 60px;
+    }
+    .details__center,
+    .details__bottom {
+        max-width: none;
+        width: 400px;
+    }
+    .today-item {
+        width: 180px;
+    }
+}
 @media only screen and (min-width: 760px) and (orientation: landscape) {
     .main-container {
         display: flex;
@@ -405,6 +443,7 @@ button:focus {
         width: 100%;
         height: 100vh;
         height: calc(var(--vh, 1vh) * 100);
+        min-height: 550px;
         justify-content: center;
         align-items: center;
     }
