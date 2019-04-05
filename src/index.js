@@ -185,6 +185,9 @@ function displaySunPath(percent, time) {
     if (time == 'night') {
         sunPath.setAttribute('stroke', '#C5C3C6');
         sun.setAttribute('fill', '#C5C3C6');
+    } else {
+        sunPath.setAttribute('stroke', '#3C3C3B');
+        sun.setAttribute('fill', '#3C3C3B');
     }
 };
 
