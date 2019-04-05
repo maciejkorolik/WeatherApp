@@ -1,9 +1,16 @@
+// ***  Still to be done:  ***
+// ***************************
+// - repair issues with time for other timezones
+//     (time is read as local time of user, the app doesn't convert it 
+//      to timezone of the searched city. A result is that sunset and sunrise times are
+//      not real for cities in different timezones, and 5day forecast is not shown properly)
+
+
 import './css/style.css';
 import './css/zwicon.css';
 var moment = require('moment');
 
-// let vh = window.innerHeight * 0.01;
-// document.documentElement.style.setProperty('--vh', `${vh}px`);
+// function to repair vh issues on mobile
 
 window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
@@ -12,6 +19,7 @@ window.addEventListener('resize', () => {
 let appId = '4028c59f77317ad8b5a44c41e53ca804';
 let units = 'metric';
 
+// get weather by searching for the city name
 
 function getWeatherByCity(searchInput) {
     document.querySelector('.intro').classList.add("intro--hidden");
@@ -47,6 +55,8 @@ function getWeatherByCity(searchInput) {
     
 };
 
+// get weather by geolocation
+
 function getWeatherByGeo(lat, lon) {
     document.querySelector('.intro').classList.add("intro--hidden");
     toggleLoader();
@@ -80,6 +90,8 @@ function getWeatherByGeo(lat, lon) {
         });
 
 };
+
+// show today current weather
 
 function showTodayWeather(result) {
     // console.log(result);
@@ -120,6 +132,7 @@ function showTodayWeather(result) {
         displaySunPath(percentOfDay, 'day');
         document.querySelector('.today-icon').innerHTML = `<i class="${setIcon(result.weather[0].id)}"></i>`;
         document.documentElement.style.setProperty('--background-main', `${setBackground(result.weather[0].id)}`);
+        document.documentElement.style.setProperty(`--text-color`, '#3C3C3B');
     } else {
         displaySunPath(percentOfNight, 'night');
         document.querySelector('.today-icon').innerHTML = `<i class="zwicon-moon"></i>`;
@@ -128,6 +141,8 @@ function showTodayWeather(result) {
     }
     
 };
+
+// show five days forecast
 
 function showFiveDays(result) {
     let noonData = [];
@@ -153,28 +168,13 @@ function showFiveDays(result) {
             nextDays.appendChild(dayDisplay);
         }
     )
-}
-
-function toggleLoader() {
-    document.querySelector('.loader').classList.toggle("loader--hidden");
 };
 
-function showError(text) {
-    document.querySelector('.intro').classList.toggle("intro--hidden");
-    document.querySelector('p.error').innerText = text;
-};
-
-function deleteError() {
-    let errorText = document.querySelector('p.error');
-    if (errorText.innerText !== '') {
-        errorText.innerText = '';
-    };
-};
-
+// display svg of sun position
 function displaySunPath(percent, time) {
     let sunPath = document.getElementById('sun-path');
     let sunPathTotal = sunPath.getTotalLength();
-    let sunPathCurrent = sunPathTotal * (1-percent);
+    let sunPathCurrent = sunPathTotal * (1 - percent);
     sunPath.style.strokeDasharray = sunPathTotal;
     sunPath.style.strokeDashoffset = sunPathCurrent;
     // get position of length
@@ -186,8 +186,9 @@ function displaySunPath(percent, time) {
         sunPath.setAttribute('stroke', '#C5C3C6');
         sun.setAttribute('fill', '#C5C3C6');
     }
-}
+};
 
+// set background color for each weather condition
 function setBackground(id) {
     if (id < 300) {
         return '#C5C3C6';
@@ -205,6 +206,7 @@ function setBackground(id) {
         return '#C5C3C6';
     };
 };
+// set icon for each weather condition
 function setIcon(id) {
     if (id < 300) {
         return 'zwicon-storm';
@@ -221,8 +223,25 @@ function setIcon(id) {
     } else {
         return 'zwicon-cloud';
     };
-}
+};
 
+function toggleLoader() {
+    document.querySelector('.loader').classList.toggle("loader--hidden");
+};
+
+function showError(text) {
+    document.querySelector('.intro').classList.toggle("intro--hidden");
+    document.querySelector('p.error').innerText = text;
+};
+
+function deleteError() {
+    let errorText = document.querySelector('p.error');
+    if (errorText.innerText !== '') {
+        errorText.innerText = '';
+    };
+};
+
+// main event listeners
 document.querySelector('.intro__form').addEventListener('submit', (e) => {
     e.preventDefault();
     let searchInput = document.querySelector('.search-input').value;
