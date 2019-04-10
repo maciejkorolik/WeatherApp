@@ -9,6 +9,8 @@
 import './css/style.css';
 import './css/zwicon.css';
 var moment = require('moment');
+let appId = '4028c59f77317ad8b5a44c41e53ca804';
+let units = 'metric';
 
 // function to repair vh issues on mobile
 
@@ -16,8 +18,7 @@ window.addEventListener('resize', () => {
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
 });
-let appId = '4028c59f77317ad8b5a44c41e53ca804';
-let units = 'metric';
+
 
 // get weather by searching for the city name
 
@@ -46,13 +47,11 @@ function getWeatherByCity(searchInput) {
             } else {
                 return Promise.reject(resultFiveDays)
             }
-
         })
         .then(resultFiveDays => showFiveDays(resultFiveDays))
         .catch(error => {
             console.log(error);
         });
-    
 };
 
 // get weather by geolocation
@@ -82,13 +81,11 @@ function getWeatherByGeo(lat, lon) {
             } else {
                 return Promise.reject(resultFiveDays)
             }
-
         })
         .then(resultFiveDays => showFiveDays(resultFiveDays))
         .catch(error => {
             console.log(error);
         });
-
 };
 
 // show today current weather
@@ -209,6 +206,7 @@ function setBackground(id) {
         return '#C5C3C6';
     };
 };
+
 // set icon for each weather condition
 function setIcon(id) {
     if (id < 300) {
@@ -232,6 +230,7 @@ function toggleLoader() {
     document.querySelector('.loader').classList.toggle("loader--hidden");
 };
 
+// Show and delete errors
 function showError(text) {
     document.querySelector('.intro').classList.toggle("intro--hidden");
     document.querySelector('p.error').innerText = text;
@@ -286,6 +285,3 @@ document.querySelector('.btn__return').addEventListener('click', () => {
         document.querySelector('.details').classList.toggle('details--down');
     }
 });
-
-// window.addEventListener('load', toggleLoader());
-//
