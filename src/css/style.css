@@ -350,7 +350,7 @@ button:focus {
 
 /* Start of media queries */
 @media only screen and (min-width: 760px) and  (orientation: portrait) {
-    .wrapper {
+    .app {
         display: flex;
         flex-direction: column;
         justify-content: stretch;
@@ -402,7 +402,7 @@ button:focus {
     .intro, .main, .main--up, .details, .details--down {
         font-size:12px;
     }
-    .wrapper {
+    .app {
         min-height: 1020px;
     }
     .next-day__temp {
@@ -422,7 +422,7 @@ button:focus {
     .intro, .main, .main--up, .details, .details--down {
         font-size: 14px;
     }
-    .wrapper {
+    .app {
         min-height: 1100px;
     }
     .next-day__temp {
@@ -449,7 +449,7 @@ button:focus {
         justify-content: center;
         align-items: center;
     }
-     .wrapper {
+     .app {
          display: flex;
          flex-direction: row;
          position: relative;
@@ -490,6 +490,7 @@ button:focus {
           width: 90%;
           margin: 0 auto;
           font-size: 1.4em;
+          padding-bottom: 20px;
       }
 
       .details,
