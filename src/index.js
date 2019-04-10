@@ -188,7 +188,7 @@ function displaySunPath(percent, time) {
     } else {
         sunPath.setAttribute('stroke', '#3C3C3B');
         sun.setAttribute('fill', '#3C3C3B');
-    }
+    };
 };
 
 // set background color for each weather condition
